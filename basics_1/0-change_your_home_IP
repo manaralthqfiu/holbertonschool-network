@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# This script configures localhost and facebook.com IP addresses in /etc/hosts
+
+tmp_file=$(mktemp)
+
+grep -vE '(^|[[:space:]])(localhost|facebook\.com)([[:space:]]|$)' /etc/hosts > "$tmp_file"
+
+{
+	echo "127.0.0.2 localhost"
+	echo "8.8.8.8 facebook.com"
+} >> "$tmp_file"
+
+cat "$tmp_file" > /etc/hosts
+rm "$tmp_file"
